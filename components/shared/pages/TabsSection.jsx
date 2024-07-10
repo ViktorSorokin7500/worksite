@@ -17,7 +17,7 @@ const TabsSection = ({ info }) => {
 
 			{info.map((item, i) => (
 				<TabsContent value={item.value} key={i}>
-					<ScrollArea className="h-[768px]">
+					<ScrollArea className="md:h-[768px]">
 						<ul className="grid grid-cols-1 md:grid-cols-2 gap-8">
 							{item.container.map((text, i) => (
 								<li

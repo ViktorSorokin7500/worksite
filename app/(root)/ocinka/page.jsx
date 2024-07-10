@@ -62,7 +62,7 @@ const Ocinka = () => {
 									</Link>
 								</div>
 								<h2 className="h2 group-hover:text-accent transition-all  duration-500">
-									{page.title}
+									<Link href={page.link}>{page.title}</Link>
 								</h2>
 								<p className="text-white/80">{page.desc}</p>
 								<div className="border-b border-white/20 w-full" />
