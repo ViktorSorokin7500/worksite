@@ -7,7 +7,7 @@ import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
 const ItemSliderBtn = () => {
 	const swiper = useSwiper();
 	return (
-		<div className="flex gap-2 absolute right-0 bottom-[calc(50%_-_22px)] lg:bottom-0 z-20 w-full justify-between lg:w-max">
+		<div className="flex absolute right--2px] left-0 bottom-[calc(50%_-_22px)] z-20 w-full justify-between">
 			<Button
 				className="bg-accent hover:bg-accent-hover text-primary"
 				onClick={() => swiper.slidePrev()}>

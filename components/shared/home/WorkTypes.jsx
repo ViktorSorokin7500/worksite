@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Image from "next/image";
 import Link from "next/link";
-import ItemSliderBtn from "../ItemSliderBtn";
 
 const items = [
 	{
@@ -52,7 +52,7 @@ const WorkTypes = () => {
 		setType(items[currentIndex]);
 	};
 	return (
-		<section className="hidden lg:flex flex-col justify-center lg:px-0">
+		<section className="hidden lg:flex flex-col justify-center lg:px-0 py-8">
 			<div className="container mx-auto">
 				<div className="flex flex-col lg:flex-row lg:gap-8 lg:h-96">
 					<div className="w-full lg:w-1/2 flex flex-col lg:justify-between order-2 lg:order-none space-y-4">
@@ -62,7 +62,7 @@ const WorkTypes = () => {
 						<p className="text-white/75">{type.desc}</p>
 						<div className="border border-white/20" />
 						<Link
-							href={type.link}
+							href="/ocinka"
 							className="flex gap-2 item-center border border-white/80 w-fit p-2 rounded-full bg-accent-hover text-secondary font-semibold hover:bg-accent hover:text-primary">
 							Дізнатись більше
 						</Link>
@@ -71,6 +71,11 @@ const WorkTypes = () => {
 						<Swiper
 							spaceBetween={30}
 							slidesPerView={1}
+							autoplay={{
+								delay: 5000,
+								disableOnInteraction: true,
+							}}
+							modules={[Autoplay]}
 							className="mb-12 lg:mb-0"
 							onSlideChange={handleSlediChange}>
 							{items.map((item) => {
@@ -90,7 +95,6 @@ const WorkTypes = () => {
 									</SwiperSlide>
 								);
 							})}
-							<ItemSliderBtn />
 						</Swiper>
 					</div>
 				</div>
