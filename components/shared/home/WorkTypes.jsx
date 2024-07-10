@@ -1,13 +1,10 @@
 "use client";
 import { useState } from "react";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-
 import Image from "next/image";
 import Link from "next/link";
 import ItemSliderBtn from "../ItemSliderBtn";
-import MotionWrapper from "../motion/MotionWrapper";
 
 const items = [
 	{
@@ -55,52 +52,50 @@ const WorkTypes = () => {
 		setType(items[currentIndex]);
 	};
 	return (
-		<MotionWrapper>
-			<div className="flex flex-col justify-center lg:px-0">
-				<div className="container mx-auto">
-					<div className="flex flex-col lg:flex-row lg:gap-8 lg:h-96">
-						<div className="w-full lg:w-1/2 flex flex-col lg:justify-between order-2 lg:order-none space-y-4">
-							<h2 className="h2 leading-none group-hover:text-accent transition-all duration-500 capitalize">
-								{type.title}
-							</h2>
-							<p className="text-white/75">{type.desc}</p>
-							<div className="border border-white/20" />
-							<Link
-								href={type.link}
-								className="flex gap-2 item-center border border-white/80 w-fit p-2 rounded-full bg-accent-hover text-secondary font-semibold hover:bg-accent hover:text-primary">
-								Дізнатись більше
-							</Link>
-						</div>
-						<div className="w-full lg:w-1/2">
-							<Swiper
-								spaceBetween={30}
-								slidesPerView={1}
-								className="mb-12 lg:mb-0"
-								onSlideChange={handleSlediChange}>
-								{items.map((item) => {
-									return (
-										<SwiperSlide key={item.id}>
-											<div className="h-80 relative group flex justify-center items-center bg-pink-50/20">
-												<div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10" />
-												<div className="relative w-full h-full">
-													<Image
-														src={item.image}
-														fill
-														className="object-cover"
-														alt={item.title}
-													/>
-												</div>
+		<section className="hidden lg:flex flex-col justify-center lg:px-0">
+			<div className="container mx-auto">
+				<div className="flex flex-col lg:flex-row lg:gap-8 lg:h-96">
+					<div className="w-full lg:w-1/2 flex flex-col lg:justify-between order-2 lg:order-none space-y-4">
+						<h2 className="h2 leading-none group-hover:text-accent transition-all duration-500 capitalize">
+							{type.title}
+						</h2>
+						<p className="text-white/75">{type.desc}</p>
+						<div className="border border-white/20" />
+						<Link
+							href={type.link}
+							className="flex gap-2 item-center border border-white/80 w-fit p-2 rounded-full bg-accent-hover text-secondary font-semibold hover:bg-accent hover:text-primary">
+							Дізнатись більше
+						</Link>
+					</div>
+					<div className="w-full lg:w-1/2">
+						<Swiper
+							spaceBetween={30}
+							slidesPerView={1}
+							className="mb-12 lg:mb-0"
+							onSlideChange={handleSlediChange}>
+							{items.map((item) => {
+								return (
+									<SwiperSlide key={item.id}>
+										<div className="h-80 relative group flex justify-center items-center bg-pink-50/20">
+											<div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10" />
+											<div className="relative w-full h-full">
+												<Image
+													src={item.image}
+													fill
+													className="object-cover"
+													alt={item.title}
+												/>
 											</div>
-										</SwiperSlide>
-									);
-								})}
-								<ItemSliderBtn />
-							</Swiper>
-						</div>
+										</div>
+									</SwiperSlide>
+								);
+							})}
+							<ItemSliderBtn />
+						</Swiper>
 					</div>
 				</div>
 			</div>
-		</MotionWrapper>
+		</section>
 	);
 };
 
