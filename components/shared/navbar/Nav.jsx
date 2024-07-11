@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 
 const Nav = () => {
 	const pathname = usePathname();
-	console.log(pathname);
 	const [isDropdownOpen, setDropdownOpen] = useState(false);
 
 	const handleMouseEnter = () => {

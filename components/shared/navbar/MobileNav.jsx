@@ -9,6 +9,7 @@ import {
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const links = [
 	{ name: "Головна", path: "/" },
@@ -34,7 +35,7 @@ const MobileNav = () => {
 										link.path === pathname &&
 										"text-accent border-b-2 border-accent"
 									} text-xl capitalize hover:text-accent transition-all`}>
-									{link.name}
+									<DialogTitle>{link.name}</DialogTitle>
 								</Link>
 							</SheetClose>
 						);
