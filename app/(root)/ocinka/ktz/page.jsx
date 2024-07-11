@@ -7,7 +7,7 @@ const KTZ = () => {
 		<section className="container mx-auto w-screen">
 			<MotionWrapper>
 				<h1 className="h1 text-center mb-4 lg:mb-8">
-					Оцінка Колісно-Транспортних засобів
+					Оцінка Колісних Транспортних засобів
 				</h1>
 				<TabsSection info={ktzInfo} />
 			</MotionWrapper>
