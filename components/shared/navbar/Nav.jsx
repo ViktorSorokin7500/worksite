@@ -23,23 +23,23 @@ const Nav = () => {
 		},
 		{
 			id: 2,
+			title: "Оцінка колісних транспортних засобів",
+			link: "/ocinka/ktz",
+		},
+		{
+			id: 3,
+			title: "Оцінка обладнання",
+			link: "/ocinka/obladnannja",
+		},
+		{
+			id: 4,
 			title: "Оцінка комерційної нерухомості",
 			link: "/ocinka/komercijna",
 		},
 		{
-			id: 3,
-			title: "Оцінка колесно-транспортних засобів",
-			link: "/ocinka/ktz",
-		},
-		{
-			id: 4,
+			id: 5,
 			title: "Оцінка житлової нерухомості",
 			link: "/ocinka/neruhomist",
-		},
-		{
-			id: 5,
-			title: "Оцінка обладнання",
-			link: "/ocinka/obladnannja",
 		},
 	];
 
