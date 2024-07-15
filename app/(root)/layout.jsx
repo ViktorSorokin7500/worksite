@@ -50,9 +50,20 @@ export const metadata = {
 	lang: "uk-UA",
 };
 
+export function generateViewport() {
+	return "width=device-width, initial-scale=1";
+}
+
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
+			<head>
+				<Script
+					async
+					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9487098491268165"
+					crossOrigin="anonymous"
+				/>
+			</head>
 			<body className={`${jetbrainsMono.variable} flex flex-col min-h-screen`}>
 				<Header />
 				<div className="flex-1 flex justify-center items-center">
