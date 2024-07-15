@@ -141,7 +141,7 @@ const ContactForm = () => {
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="space-y-6 bg-[#27272c] p-10 rounded-xl max-w-[960px]">
-				<h3 className="h3 text-accent">Зворотний зв&apos;язок</h3>
+				<h1 className="h2 text-accent">Зворотний зв&apos;язок</h1>
 				<p className="text-white/80">
 					Будь ласка, опишіть свої питання або потреби щодо оцінки майна. Ми
 					надамо вам професійну консультацію та відповімо на ваш запит

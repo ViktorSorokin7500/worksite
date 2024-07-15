@@ -38,6 +38,41 @@ const pages = [
 	},
 ];
 
+export const metadata = {
+	title: "Види оцінки",
+	description:
+		"Детальна інформація про різні види оцінки майна, включаючи оцінку збитків, транспортних засобів, обладнання, комерційної та житлової нерухомості.",
+	keywords:
+		"оцінка, оцінка майна, оцінка збитків, оцінка нерухомості, оцінка пошкоджень, оцінювач, оценка, оценка имущества, оценка убытков, оценка недвижимости, оценка повреждений, оценщик",
+	alternates: {
+		canonical: "sorokinsv.com/ocinka",
+	},
+	openGraph: {
+		title: "Види оцінки | Сорокін",
+		description:
+			"Детальна інформація про різні види оцінки майна, включаючи оцінку збитків, транспортних засобів, обладнання, комерційної та житлової нерухомості.",
+		url: "sorokinsv.com/ocinka",
+		type: "website",
+		images: [
+			{
+				url: "https://cdn.pixabay.com/photo/2022/06/29/11/26/ukraine-7291492_1280.png",
+				width: 800,
+				height: 600,
+				alt: "Image Alt",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Види оцінки | Сорокін",
+		description:
+			"Детальна інформація про різні види оцінки майна, включаючи оцінку збитків, транспортних засобів, обладнання, комерційної та житлової нерухомості.",
+		image:
+			"https://cdn.pixabay.com/photo/2022/06/29/11/26/ukraine-7291492_1280.png",
+	},
+	lang: "uk-UA",
+};
+
 const Ocinka = () => {
 	return (
 		<section className="flex flex-col justify-center py-8 lg:py-0">
