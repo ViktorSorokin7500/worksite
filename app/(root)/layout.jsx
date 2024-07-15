@@ -4,6 +4,7 @@ import Header from "@/components/shared/Header";
 import PageTransition from "@/components/shared/PageTransition";
 import StairTransition from "@/components/shared/StairTransition";
 import Footer from "@/components/shared/Footer";
+import Script from "next/script";
 
 const jetbrainsMono = JetBrains_Mono({
 	subsets: ["latin"],
