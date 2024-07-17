@@ -64,6 +64,18 @@ export default function RootLayout({ children }) {
 					content="ca-pub-9487098491268165"></meta>
 				<Script
 					async
+					src="https://www.googletagmanager.com/gtag/js?id=G-8P9PC1S6YX"
+					strategy="afterInteractive"
+				/>
+				<Script id="google-analytics" strategy="afterInteractive">
+					{`window.dataLayer = window.dataLayer || [];
+					  function gtag(){dataLayer.push(arguments);}
+					  gtag('js', new Date());
+					
+					  gtag('config', 'G-8P9PC1S6YX');`}
+				</Script>
+				<Script
+					async
 					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9487098491268165"
 					crossOrigin="anonymous"
 				/>
