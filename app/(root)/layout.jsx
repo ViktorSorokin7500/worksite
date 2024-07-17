@@ -23,7 +23,7 @@ export const metadata = {
 		"оцінка, оцінка майна, оцінка збитків, оцінювач, оцінка пошкоджень, оцінка зруйнованого майна, оценка, оценка имущества, оценка убытков, оценщик, оценка повреждений, оценка разрушенного имущества",
 	robots: "index, follow",
 	alternates: {
-		canonical: "sorokinsv.com",
+		canonical: "https://www.sorokinsv.com",
 	},
 	openGraph: {
 		title: "Оцінка | Сорокін",
