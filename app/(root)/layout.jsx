@@ -57,7 +57,7 @@ export function generateViewport() {
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang="en">
+		<html lang="uk">
 			<head>
 				<meta
 					name="google-adsense-account"
