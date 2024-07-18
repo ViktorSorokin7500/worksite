@@ -59,9 +59,8 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="uk">
 			<head>
-				<meta
-					name="google-adsense-account"
-					content="ca-pub-9487098491268165"></meta>
+				<meta name="google-adsense-account" content="ca-pub-9487098491268165" />
+				<meta name="revisit-after" content="1 days" />
 				<Script
 					async
 					src="https://www.googletagmanager.com/gtag/js?id=G-8P9PC1S6YX"
