@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { Button } from "../../../components/ui/button";
 import Image from "next/image";
-
 import ukraine from "/public/ukraine.png";
-import Phone from "@/components/media/Phone";
-import Telegram from "@/components/media/Telegram";
-import Viber from "@/components/media/Viber";
-import WhatsApp from "@/components/media/WhatsApp";
 
 const Testimonial = () => {
 	return (
