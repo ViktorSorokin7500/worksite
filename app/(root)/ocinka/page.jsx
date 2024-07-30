@@ -77,6 +77,9 @@ const Ocinka = () => {
 	return (
 		<section className="flex flex-col justify-center py-8 lg:py-0">
 			<div className="container mx-auto">
+				<h1 className="h1 font-extrabold text-outline text-transparent text-center mb-4">
+					Види оцінки
+				</h1>
 				<MotionWrapper className="grid grid-cols-1 md:grid-cols-2 gap-[60px]">
 					{pages.map((page, i) => {
 						return (
