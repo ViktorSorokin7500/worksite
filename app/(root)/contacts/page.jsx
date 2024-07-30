@@ -20,13 +20,13 @@ export const metadata = {
 	keywords:
 		"оцінка, оцінка майна, оцінка збитків, оцінювач, оцінка пошкоджень, оцінка зруйнованого майна, оценка, оценка имущества, оценка убытков, оценщик, оценка повреждений, оценка разрушенного имущества",
 	alternates: {
-		canonical: "sorokinsv.com/contacts",
+		canonical: "https://www.sorokinsv.com/contacts",
 	},
 	openGraph: {
 		title: "Контакти | Сорокін",
 		description:
 			"Зв'яжіться з нами для професійної оцінки майна та збитків. Ми надаємо експертні послуги з оцінки пошкоджень та зруйнованого майна.",
-		url: "sorokinsv.com/contacts",
+		url: "https://www.sorokinsv.com/contacts",
 		type: "website",
 		images: [
 			{

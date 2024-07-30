@@ -9,13 +9,13 @@ export const metadata = {
 	keywords:
 		"оцінка, оцінка обладнання, ринкова вартість обладнання, оцінка промислового обладнання, оцінка вартості активів, оцінка техніки, оцінювач обладнання",
 	alternates: {
-		canonical: "https://sorokinsv.com/ocinka/obladnannja",
+		canonical: "https://www.sorokinsv.com/ocinka/obladnannja",
 	},
 	openGraph: {
 		title: "Оцінка Обладнання | Сорокін",
 		description:
 			"Оцінка обладнання потрібна при купівлі або продажу обладнання, оформленні кредитів. Вона також необхідна для бухгалтерського обліку, розрахунку амортизації та податкових зобов'язань. Крім того, оцінка використовується для визначення вартості при ліквідації чи злитті підприємств.",
-		url: "https://sorokinsv.com/ocinka/obladnannja",
+		url: "https://www.sorokinsv.com/ocinka/obladnannja",
 		type: "website",
 		images: [
 			{

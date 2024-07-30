@@ -9,13 +9,13 @@ export const metadata = {
 	keywords:
 		"оцінка, оцінка житлової нерухомості, оцінка нерухомості, ринкова вартість нерухомості, оцінка квартир, оцінка будинків, оцінювач нерухомості",
 	alternates: {
-		canonical: "https://sorokinsv.com/ocinka/neruhomist",
+		canonical: "https://www.sorokinsv.com/ocinka/neruhomist",
 	},
 	openGraph: {
 		title: "Оцінка Житлової Нерухомості | Сорокін",
 		description:
 			"Оцінка нерухомості допомагає визначити ринкову вартість перед продажем, покупкою або для отримання іпотеки. Це також важливо для юридичних процедур, таких як спадщина або розподіл майна, а також для судових справ.",
-		url: "https://sorokinsv.com/ocinka/neruhomist",
+		url: "https://www.sorokinsv.com/ocinka/neruhomist",
 		type: "website",
 		images: [
 			{

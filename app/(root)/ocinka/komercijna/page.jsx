@@ -9,13 +9,13 @@ export const metadata = {
 	keywords:
 		"оцінка, оцінка майна, оцінка комерційної нерухомості, оцінка бізнес-нерухомості, оцінка вартості майна, оцінювач",
 	alternates: {
-		canonical: "https://sorokinsv.com/ocinka/komercijna",
+		canonical: "https://www.sorokinsv.com/ocinka/komercijna",
 	},
 	openGraph: {
 		title: "Оцінка Комерційної Нерухомості | Сорокін",
 		description:
 			"Оцінка комерційної нерухомості забезпечує об'єктивну інформацію про вартість майна, визначення вартості активів для бухгалтерського обліку і податкових розрахунків, що є ключовою для прийняття фінансових і стратегічних рішень.",
-		url: "https://sorokinsv.com/ocinka/komercijna",
+		url: "https://www.sorokinsv.com/ocinka/komercijna",
 		type: "website",
 		images: [
 			{
