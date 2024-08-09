@@ -61,6 +61,7 @@ export default function RootLayout({ children }) {
 			<head>
 				<meta name="google-adsense-account" content="ca-pub-9487098491268165" />
 				<meta name="revisit-after" content="1 days" />
+
 				<Script
 					async
 					src="https://www.googletagmanager.com/gtag/js?id=G-8P9PC1S6YX"
@@ -68,16 +69,26 @@ export default function RootLayout({ children }) {
 				/>
 				<Script id="google-analytics" strategy="afterInteractive">
 					{`window.dataLayer = window.dataLayer || [];
-					  function gtag(){dataLayer.push(arguments);}
-					  gtag('js', new Date());
-					
-					  gtag('config', 'G-8P9PC1S6YX');`}
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			
+			// Google Analytics ID
+			gtag('config', 'G-8P9PC1S6YX');
+			
+			// Google Ads Conversion ID
+			gtag('config', 'AW-16650489971');
+		  `}
 				</Script>
+
 				<Script
 					async
 					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9487098491268165"
 					crossOrigin="anonymous"
 				/>
+
+				<Script id="google-ads-conversion" strategy="afterInteractive">
+					{`gtag('event', 'conversion', {'send_to': 'AW-16650489971/KlCFCJWIm8YZEPOgyYM-'});`}
+				</Script>
 			</head>
 			<body className={`${jetbrainsMono.variable} flex flex-col min-h-screen`}>
 				<Header />
