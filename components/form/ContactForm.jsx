@@ -84,7 +84,7 @@ const ContactForm = () => {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					to: "mfvict@gmail.com",
+					to: "mfvict@gmail.com, berhaneselassie1945@gmail.com",
 					subject: `Оцінка`,
 					body: `
 					<div style="font-family: Arial, sans-serif; color: #333; padding: 4px;">
