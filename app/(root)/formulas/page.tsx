@@ -18,7 +18,7 @@ export default function Formulas() {
       {/* Герой */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1>Формули для оцінщиків</h1>
+          <h1>Формули для оцінювачів</h1>
           <p>Ознайомтесь з професійними формулами для оцінки</p>
         </div>
       </section>
