@@ -1,0 +1,159 @@
+.header {
+  background: #1a2a44;
+  color: #fff;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #ffd700;
+    }
+  }
+}
+
+.burger {
+  display: none; /* Скрыт на десктопе */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+
+  span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    position: relative;
+    transition: all 0.3s ease;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 3px;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    &::before {
+      top: -10px;
+    }
+
+    &::after {
+      bottom: -10px;
+    }
+
+    &.open {
+      background: transparent;
+
+      &::before {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      &::after {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+    }
+  }
+}
+
+.nav {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 30px;
+  }
+
+  li {
+    a,
+    span {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 8px 12px;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    a:hover {
+      color: #ffd700;
+    }
+
+    &.active {
+      span {
+        color: #ffd700;
+        border-bottom: 2px solid #ffd700;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #1a2a44;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+
+    &.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    ul {
+      flex-direction: column;
+      gap: 0;
+      padding: 20px;
+    }
+
+    li {
+      text-align: center;
+
+      a,
+      span {
+        padding: 15px;
+        font-size: 20px;
+      }
+
+      &.active span {
+        border-bottom: none; /* Убираем подчёркивание на мобилке */
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 20px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .burger {
+    display: block; /* Показываем бургер на мобилках */
+  }
+}

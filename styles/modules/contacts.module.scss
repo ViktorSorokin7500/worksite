@@ -1,0 +1,178 @@
+@use "sass:color" as *;
+
+.contacts {
+  .hero {
+    padding: 80px 20px;
+    text-align: center;
+    background: #1a2a44;
+    color: #fff;
+
+    .heroContent {
+      h1 {
+        font-size: 42px;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      p {
+        font-size: 18px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+
+    .formSection {
+      flex: 1;
+      min-width: 300px;
+
+      h2 {
+        font-size: 32px;
+        color: #1a2a44;
+        margin-bottom: 20px;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .field {
+          display: flex;
+          flex-direction: column;
+
+          label {
+            font-size: 16px;
+            color: #4a4a4a;
+            margin-bottom: 5px;
+          }
+
+          input,
+          textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+              border-color: #1a2a44;
+            }
+          }
+
+          textarea {
+            height: 150px;
+            resize: vertical;
+          }
+        }
+
+        .cta {
+          background: #ffd700;
+          padding: 15px 40px;
+          color: #1a2a44;
+          font-size: 18px;
+          font-weight: bold;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background 0.3s ease;
+
+          &:hover {
+            background: adjust(#ffd700, $lightness: -10%);
+          }
+        }
+
+        .status {
+          font-size: 16px;
+          color: #1a2a44;
+          text-align: center;
+        }
+      }
+    }
+
+    .infoSection {
+      flex: 1;
+      min-width: 300px;
+
+      h2 {
+        font-size: 32px;
+        color: #1a2a44;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #4a4a4a;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        a {
+          color: #1a2a44;
+          text-decoration: none;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: #ff0000;
+          }
+        }
+
+        .iconLink {
+          display: inline-flex;
+          align-items: center;
+          transition: filter 0.3s ease; // Добавляем переход для затемнения
+
+          &:hover {
+            filter: brightness(85%); // Затемнение на полтона (15%)
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 60px 15px;
+
+      .heroContent {
+        h1 {
+          font-size: 32px;
+        }
+
+        p {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .container {
+      padding: 30px 15px;
+      flex-direction: column;
+
+      .formSection,
+      .infoSection {
+        h2 {
+          font-size: 28px;
+        }
+      }
+
+      .form {
+        .cta {
+          padding: 12px 30px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

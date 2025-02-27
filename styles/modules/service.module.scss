@@ -1,0 +1,260 @@
+@use "sass:color" as *;
+
+.servicePage {
+  .hero {
+    position: relative;
+    padding: 80px 20px;
+    text-align: center;
+    background: #1a2a44; /* Тёмно-синий фон */
+    color: #fff;
+    overflow: hidden;
+    height: 400px; /* Фиксированная высота */
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #fff;
+        border-radius: 50%;
+        opacity: 0.7;
+        animation: float 6s infinite ease-in-out;
+      }
+    }
+
+    .heroContent {
+      position: relative;
+      z-index: 2;
+
+      h1 {
+        font-size: 42px;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      p {
+        font-size: 18px;
+        max-width: 600px;
+        margin: 0 auto 30px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .cta {
+        display: inline-block;
+        background: #ffd700;
+        padding: 15px 40px;
+        color: #1a2a44;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 4px;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: adjust(#ffd700, $lightness: -10%);
+        }
+      }
+    }
+  }
+
+  .container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 40px 20px;
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #e0e0e0;
+
+      .tab {
+        background: #f5f5f5;
+        padding: 12px 20px;
+        font-size: 18px;
+        color: #4a4a4a;
+        border: none;
+        border-radius: 4px 4px 0 0;
+        cursor: pointer;
+        transition: background 0.3s ease, color 0.3s ease;
+
+        &.active {
+          background: #1a2a44;
+          color: #fff;
+        }
+
+        &:hover:not(.active) {
+          background: #e0e0e0;
+        }
+      }
+    }
+
+    .content {
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+
+        th,
+        td {
+          padding: 15px;
+          text-align: left;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+          background: #1a2a44;
+          color: #fff;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        td {
+          font-size: 16px;
+          color: #4a4a4a;
+
+          &:first-child {
+            font-weight: bold;
+            color: #1a2a44;
+            width: 30%;
+          }
+        }
+
+        tr {
+          transition: background 0.3s ease;
+
+          &:hover {
+            background: #f5f5f5;
+          }
+        }
+      }
+    }
+  }
+
+  .call {
+    background: #1a2a44;
+    padding: 20px 20px;
+    text-align: center;
+    color: #fff;
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .cta {
+      display: inline-block;
+      background: #ffd700;
+      padding: 15px 40px;
+      color: #1a2a44;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: adjust(#ffd700, $lightness: -10%);
+      }
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(20px, -30px);
+    }
+    50% {
+      transform: translate(-15px, 20px);
+    }
+    75% {
+      transform: translate(25px, 10px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 60px 15px;
+      height: 300px;
+
+      .heroContent {
+        h1 {
+          font-size: 32px;
+        }
+
+        p {
+          font-size: 16px;
+        }
+
+        .cta {
+          padding: 12px 30px;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .container {
+      padding: 30px 15px;
+
+      .tabs {
+        .tab {
+          font-size: 16px;
+          padding: 10px 15px;
+        }
+      }
+
+      .content {
+        .table {
+          th,
+          td {
+            font-size: 14px;
+            padding: 12px;
+          }
+
+          td:first-child {
+            width: 40%;
+          }
+        }
+      }
+    }
+
+    .call {
+      padding: 15px 15px;
+
+      h2 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .cta {
+        padding: 12px 30px;
+        font-size: 16px;
+      }
+    }
+  }
+}
