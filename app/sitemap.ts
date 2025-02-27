@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://viktorsorokin7500.github.io/worksite"; // Замени на свой домен
+  const baseUrl = "https://www.sorokinsv.com"; // Замени на свой домен
 
   return [
     {
