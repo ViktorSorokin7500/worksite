@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import styles from "@/styles/modules/formulas.module.scss";
+import styles from "@/styles/modules/tools.module.scss";
 
 export default function VariationCoefficientCalculator() {
   const [inputs, setInputs] = useState<number[]>([0, 0]);

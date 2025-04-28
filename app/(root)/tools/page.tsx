@@ -1,13 +1,12 @@
 import Link from "next/link";
-import styles from "@/styles/modules/formulas.module.scss";
+import styles from "@/styles/modules/tools.module.scss";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Формули",
-  description: "Професійні формули для оцінки майна та збитків",
+  title: "Інструменти оцінювача",
+  description: "Професійні інструменти для оцінки майна та збитків",
 };
 
-// Список формул для оценщиков (можно дополнить)
 const formulas = [
   { id: "variation-coefficient", title: "Коефіцієнт варіації" },
 ];
@@ -18,19 +17,18 @@ export default function Formulas() {
       {/* Герой */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1>Формули для оцінювачів</h1>
-          <p>Ознайомтесь з професійними формулами для оцінки</p>
+          <h1>Інструменти для оцінювачів</h1>
+          <p>Ознайомтесь з професійними інструментами для оцінки</p>
         </div>
       </section>
 
-      {/* Список формул в виде карточек */}
       <div className={styles.container}>
         <h2>Доступні формули</h2>
         <div className={styles.grid}>
           {formulas.map((formula) => (
             <Link
               key={formula.id}
-              href={`/formulas/${formula.id}`}
+              href={`/tools/${formula.id}`}
               className={styles.card}
             >
               <h3>{formula.title}</h3>

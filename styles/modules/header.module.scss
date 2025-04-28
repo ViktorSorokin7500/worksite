@@ -27,7 +27,7 @@
 }
 
 .burger {
-  display: none; /* Скрыт на десктопе */
+  display: none;
   background: none;
   border: none;
   cursor: pointer;
@@ -105,7 +105,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 896px) {
     position: absolute;
     top: 100%;
     left: 0;
@@ -138,13 +138,13 @@
       }
 
       &.active span {
-        border-bottom: none; /* Убираем подчёркивание на мобилке */
+        border-bottom: none;
       }
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 896px) {
   .header {
     padding: 15px 20px;
   }
@@ -154,6 +154,6 @@
   }
 
   .burger {
-    display: block; /* Показываем бургер на мобилках */
+    display: block;
   }
 }

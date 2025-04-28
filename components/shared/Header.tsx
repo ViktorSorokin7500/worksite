@@ -12,7 +12,7 @@ interface NavItemProps {
 const navItems: NavItemProps[] = [
   { name: "Головна", path: "/" },
   { name: "Оцінка", path: "/ocinka" },
-  { name: "Формули", path: "/formulas" },
+  { name: "Інстременти оцінювача", path: "/tools" },
   { name: "Контакти", path: "/contacts" },
 ];
 

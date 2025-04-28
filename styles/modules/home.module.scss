@@ -28,7 +28,7 @@
     transition: background 0.3s ease;
 
     &:hover {
-      background: adjust(#ffd700, $lightness: -10%); // Заменяем darken
+      background: adjust(#ffd700, $lightness: -10%);
     }
   }
 
@@ -122,7 +122,7 @@
       padding: 15px;
 
       .imageWrapper {
-        height: 120px; /* Меньше на мобилках */
+        height: 120px;
       }
 
       h3 {
@@ -137,7 +137,7 @@
 
   @media (max-width: 480px) {
     .grid {
-      grid-template-columns: 1fr; /* Одна колонка на маленьких экранах */
+      grid-template-columns: 1fr;
     }
   }
 }

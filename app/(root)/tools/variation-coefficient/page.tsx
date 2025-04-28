@@ -1,5 +1,5 @@
 import VariationCoefficientCalculator from "@/components/shared/VariationCoefficientCalculator";
-import styles from "@/styles/modules/formulas.module.scss";
+import styles from "@/styles/modules/tools.module.scss";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
