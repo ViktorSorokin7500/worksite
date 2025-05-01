@@ -23,6 +23,12 @@ export default function Formulas() {
       </section>
 
       <div className={styles.container}>
+        <div className={styles.grid}>
+          <Link href={`/tools/sort-photo`} className={styles.card}>
+            <h3>Створення фотозвіту</h3>
+          </Link>
+        </div>
+
         <h2>Доступні формули</h2>
         <div className={styles.grid}>
           {formulas.map((formula) => (

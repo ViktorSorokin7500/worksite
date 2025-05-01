@@ -1,0 +1,312 @@
+@use "sass:color" as *;
+
+.photoReport {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .title {
+    font-size: 32px;
+    color: #1a2a44;
+    margin-bottom: 20px;
+  }
+
+  .dropzone {
+    border: 2px dashed #1a2a44;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &.active {
+      background: #e6f0ff;
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: #1a2a44;
+    }
+  }
+
+  .error {
+    color: #ff3333;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .photoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .sortablePhoto {
+    position: relative;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+    cursor: grab;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    touch-action: none;
+    transition: box-shadow 0.3s ease;
+
+    &.dragging {
+      opacity: 0.5;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    .index {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 2px 5px;
+      font-size: 12px;
+    }
+
+    .deleteButton {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      padding: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #cc0000;
+      }
+
+      svg {
+        color: #ccc;
+      }
+    }
+
+    .captionInput {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      width: calc(100% - 32px);
+      padding: 5px;
+      font-size: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      outline: none;
+      background-color: transparent;
+      border-color: transparent;
+      color: #fff;
+
+      &::placeholder {
+        color: #ccc;
+      }
+
+      &:focus {
+        background-color: #000;
+        border-color: #1a2a44;
+      }
+    }
+  }
+
+  .dragOverlay {
+    position: relative;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    cursor: grabbing;
+    opacity: 0.9;
+
+    img {
+      max-width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    .index {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 2px 5px;
+      font-size: 12px;
+    }
+  }
+
+  .buttonGroup {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+  }
+
+  .generateButton {
+    padding: 10px 20px;
+    background: #1a2a44;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #0e1a2f;
+    }
+  }
+
+  .clearAllButton {
+    padding: 10px 20px;
+    background: #ff3333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #cc0000;
+    }
+  }
+
+  .pdfPreview {
+    position: absolute;
+    left: -9999px;
+
+    .page {
+      background: white;
+      box-sizing: border-box;
+
+      .grid {
+        display: grid;
+        justify-content: center;
+        align-content: center;
+
+        .photoContainer {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+
+          .caption {
+            font-size: 18px;
+            line-height: 1.2;
+            color: #1a2a44;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 5px;
+            max-width: 100%;
+            white-space: normal;
+            word-wrap: break-word;
+            margin-bottom: 5px;
+          }
+
+          img {
+            width: 100%;
+            object-fit: contain;
+            margin: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .photoReport {
+    padding: 10px;
+
+    .title {
+      font-size: 20px;
+    }
+
+    .dropzone {
+      padding: 15px;
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    .photoGrid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      max-width: 500px;
+    }
+
+    .sortablePhoto {
+      padding: 3px;
+
+      img {
+        max-height: 120px;
+      }
+
+      .index {
+        font-size: 10px;
+        padding: 1px 3px;
+      }
+
+      .deleteButton {
+        padding: 4px;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .captionInput {
+        font-size: 10px;
+        padding: 3px;
+      }
+    }
+
+    .generateButton {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .photoReport {
+    .photoGrid {
+      grid-template-columns: 1fr;
+      max-width: 300px;
+    }
+
+    .sortablePhoto {
+      img {
+        max-height: 100px;
+      }
+
+      .captionInput {
+        font-size: 9px;
+      }
+    }
+  }
+}
