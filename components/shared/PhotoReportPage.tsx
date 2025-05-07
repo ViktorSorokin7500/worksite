@@ -12,11 +12,11 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { FaRegTrashAlt } from "react-icons/fa";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import styles from "@/styles/modules/photo-report.module.scss";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
+import { FaRegTrashAlt, FaRedoAlt } from "react-icons/fa";
 
 // Інтерфейс фотографії
 interface Photo {
@@ -34,12 +34,14 @@ const SortablePhoto = ({
   updateCaption,
   deletePhoto,
   isDragging,
+  rotatePhoto,
 }: {
   photo: Photo;
   index: number;
   updateCaption: (id: string, caption: string) => void;
   deletePhoto: (id: string) => void;
   isDragging: boolean;
+  rotatePhoto: (id: string, angle: number) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: photo.id });
@@ -50,38 +52,54 @@ const SortablePhoto = ({
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      className={`${styles.sortablePhoto} ${isDragging ? styles.dragging : ""}`}
-      style={style}
-      {...attributes}
-    >
-      <img
-        src={photo.preview}
-        alt="Фотографія"
-        style={{ transform: `rotate(${photo.rotation}deg)` }}
-        {...listeners}
-      />
-      <div className={styles.index}>{index + 1}</div>
+    <div>
+      <div
+        ref={setNodeRef}
+        className={`${styles.sortablePhoto} ${
+          isDragging ? styles.dragging : ""
+        }`}
+        style={style}
+        {...attributes}
+      >
+        <img
+          src={photo.preview}
+          alt="Фотографія"
+          style={{ transform: `rotate(${photo.rotation}deg)` }}
+          {...listeners}
+        />
+        <div className={styles.index}>{index + 1}</div>
+        <button
+          className={styles.deleteButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            deletePhoto(photo.id);
+          }}
+          title="Видалити"
+        >
+          <FaRegTrashAlt size={16} />
+        </button>
+        <div className={styles.bottomPart}>
+          <input
+            type="text"
+            value={photo.caption}
+            onChange={(e) => updateCaption(photo.id, e.target.value)}
+            placeholder="Введіть підпис"
+            className={styles.captionInput}
+            onClick={(e) => e.stopPropagation()}
+            maxLength={50}
+          />
+        </div>
+      </div>
       <button
-        className={styles.deleteButton}
+        className={styles.rotateButton}
         onClick={(e) => {
           e.stopPropagation();
-          deletePhoto(photo.id);
+          rotatePhoto(photo.id, 180);
         }}
-        title="Видалити"
+        title="Повернути вправо"
       >
-        <FaRegTrashAlt size={16} />
+        <FaRedoAlt size={16} />
       </button>
-      <input
-        type="text"
-        value={photo.caption}
-        onChange={(e) => updateCaption(photo.id, e.target.value)}
-        placeholder="Введіть підпис"
-        className={styles.captionInput}
-        onClick={(e) => e.stopPropagation()}
-        maxLength={50}
-      />
     </div>
   );
 };
@@ -110,18 +128,6 @@ const PdfPreview = ({ photos }: { photos: Photo[] }) => {
   const scaledPhotoHeight = photoHeight * scale;
   const scaledCaptionHeight = captionHeight * scale;
   const scaledCaptionGap = captionGap * scale;
-
-  console.log("Розміри сторінки PDF:", {
-    pageWidth,
-    pageHeight,
-    photoWidth: scaledPhotoWidth,
-    photoHeight: scaledPhotoHeight,
-    totalHeight,
-    scale,
-    leftPadding,
-    captionHeight: scaledCaptionHeight,
-    captionGap: scaledCaptionGap,
-  });
 
   return (
     <div className={styles.pdfPreview}>
@@ -187,7 +193,7 @@ export function PhotoReportPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null); // Для DragOverlay
-
+  ///////////////// 123 456 789 987 654 321 /////////////////////
   // Стандартизація зображення до 854x481
   const standardizeImage = async (file: File): Promise<File> => {
     const img = new Image();
@@ -197,45 +203,63 @@ export function PhotoReportPage() {
       img.src = objectUrl;
     });
 
-    const targetRatio = 854 / 481;
+    // const targetRatio = 854 / 481;
     const targetWidth = 854;
     const targetHeight = 481;
 
-    const currentRatio = img.width / img.height;
-    let sourceWidth = img.width;
-    let sourceHeight = img.height;
-    let sourceX = 0;
-    let sourceY = 0;
+    // const currentRatio = img.width / img.height;
+    // let sourceWidth = img.width;
+    // let sourceHeight = img.height;
+    // let sourceX = 0;
+    // let sourceY = 0;
 
-    if (currentRatio > targetRatio) {
-      sourceWidth = img.height * targetRatio;
-      sourceX = (img.width - sourceWidth) / 2;
-    } else if (currentRatio < targetRatio) {
-      sourceHeight = img.width / targetRatio;
-      sourceY = (img.height - sourceHeight) / 2;
-    }
+    // if (currentRatio > targetRatio) {
+    //   sourceWidth = img.height * targetRatio;
+    //   sourceX = (img.width - sourceWidth) / 2;
+    // } else if (currentRatio < targetRatio) {
+    //   sourceHeight = img.width / targetRatio;
+    //   sourceY = (img.height - sourceHeight) / 2;
+    // }
 
     const canvas = document.createElement("canvas");
     canvas.width = targetWidth;
     canvas.height = targetHeight;
     const ctx = canvas.getContext("2d")!;
-    ctx.drawImage(
-      img,
-      sourceX,
-      sourceY,
-      sourceWidth,
-      sourceHeight,
-      0,
-      0,
-      targetWidth,
-      targetHeight
-    );
+    if (img.width < img.height) {
+      // Поворачиваем холст на 90 градусов влево
+      ctx.translate(0, targetHeight); // Смещаем начало координат в левый нижний угол
+      ctx.rotate(-Math.PI / 2); // Поворот на -90 градусов (влево)
+
+      // Отрисовываем изображение с учётом поворота
+      // После поворота ширина и высота меняются местами
+      ctx.drawImage(
+        img,
+        0,
+        0,
+        targetHeight, // Теперь это ширина на холсте
+        targetWidth // Теперь это высота на холсте
+      );
+    } else {
+      // Если ориентация правильная (альбомная), рисуем без поворота
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+    }
 
     const blob = await new Promise<Blob>((resolve) =>
       canvas.toBlob((b) => resolve(b!), "image/jpeg", 0.9)
     );
+
     URL.revokeObjectURL(objectUrl);
     return new File([blob], file.name, { type: "image/jpeg" });
+  };
+
+  const rotatePhoto = (id: string, angle: number) => {
+    setPhotos((photos) =>
+      photos.map((photo) =>
+        photo.id === id
+          ? { ...photo, rotation: (photo.rotation + angle) % 360 }
+          : photo
+      )
+    );
   };
 
   // Обробка завантаження файлів
@@ -391,6 +415,7 @@ export function PhotoReportPage() {
                 index={index}
                 updateCaption={updateCaption}
                 deletePhoto={deletePhoto}
+                rotatePhoto={rotatePhoto}
                 isDragging={activeId === photo.id}
               />
             ))}

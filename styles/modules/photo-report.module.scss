@@ -130,6 +130,18 @@
     }
   }
 
+  .rotateButton {
+    background: none;
+    border: none;
+    color: #000080;
+    cursor: pointer;
+    margin: 0 4px;
+
+    &:hover {
+      color: #1a2a44;
+    }
+  }
+
   .dragOverlay {
     position: relative;
     text-align: center;
