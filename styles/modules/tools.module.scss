@@ -227,6 +227,43 @@
   }
 }
 
+.predictionTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #4a4a4a;
+
+  th,
+  td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background: #1a2a44;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  @media (max-width: 1096px) {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+
+    th,
+    td {
+      padding: 6px;
+      min-width: 80px;
+    }
+  }
+}
+
 @media (max-width: 1024px) {
   .formulas .container .grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -310,6 +347,18 @@
       }
     }
   }
+
+  .predictionTable {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+
+    th,
+    td {
+      padding: 6px;
+      min-width: 80px;
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -323,6 +372,16 @@
       h3 {
         font-size: 18px;
       }
+    }
+  }
+
+  .predictionTable {
+    font-size: 12px;
+
+    th,
+    td {
+      padding: 4px;
+      min-width: 60px;
     }
   }
 }

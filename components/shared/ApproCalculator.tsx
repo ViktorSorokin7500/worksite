@@ -15,6 +15,7 @@ export function ApproCalculator() {
       determination: number;
       approximationError: number;
       mse: number;
+      predicted: number[];
     };
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -203,6 +204,7 @@ export function ApproCalculator() {
       coefficients: { a: linear.coeffs[1], b: linear.coeffs[0] },
       ...linearMetrics,
       mse: linear.mse,
+      predicted: linear.predicted,
     };
 
     // 2. Квадратична регресія
@@ -221,6 +223,7 @@ export function ApproCalculator() {
       },
       ...quadraticMetrics,
       mse: quadratic.mse,
+      predicted: quadratic.predicted,
     };
 
     // 3. Кубічна регресія
@@ -240,6 +243,7 @@ export function ApproCalculator() {
       },
       ...cubicMetrics,
       mse: cubic.mse,
+      predicted: cubic.predicted,
     };
 
     // 4. Степенева регресія
@@ -256,6 +260,7 @@ export function ApproCalculator() {
       coefficients: { a: powerA, b: power.coeffs[1] },
       ...powerMetrics,
       mse: power.mse,
+      predicted: powerPredicted,
     };
 
     // 5. Показникова регресія
@@ -270,6 +275,7 @@ export function ApproCalculator() {
       coefficients: { a: showA, b: showB },
       ...showMetrics,
       mse: show.mse,
+      predicted: showPredicted,
     };
 
     // 6. Логарифмічна регресія
@@ -286,6 +292,7 @@ export function ApproCalculator() {
       coefficients: { a: log.coeffs[0], b: log.coeffs[1] },
       ...logMetrics,
       mse: log.mse,
+      predicted: logPredicted,
     };
 
     // 7. Гіперболічна регресія
@@ -302,6 +309,7 @@ export function ApproCalculator() {
       coefficients: { a: hyper.coeffs[0], b: hyper.coeffs[1] },
       ...hyperMetrics,
       mse: hyper.mse,
+      predicted: hyperPredicted,
     };
 
     // 8. Експоненціальна регресія
@@ -316,6 +324,7 @@ export function ApproCalculator() {
       coefficients: { c: expC, b: expB },
       ...expMetrics,
       mse: exp.mse,
+      predicted: expPredicted,
     };
 
     setResults(result);
@@ -420,6 +429,55 @@ export function ApproCalculator() {
               <p>Середня помилка апроксимації: {result.approximationError}%</p>
             </div>
           ))}
+        </div>
+      )}
+
+      {results && !error && (
+        <div className={styles.results}>
+          <h3>Результати:</h3>
+          {Object.entries(results).map(([key, result]) => (
+            <div key={key} className={styles.step}>
+              <p>
+                <strong>{regressionNames[key]}</strong>
+              </p>
+              <p>{result.equation}</p>
+              <p>
+                {key === "linear"
+                  ? "Коефіцієнт лінійної парної кореляції"
+                  : "Коефіцієнт кореляції"}
+                : {result.correlation}
+              </p>
+              <p>Коефіцієнт детермінації: {result.determination}</p>
+              <p>Середня помилка апроксимації: {result.approximationError}%</p>
+            </div>
+          ))}
+          <h3>Прогнозовані значення</h3>
+          <table className={styles.predictionTable}>
+            <thead>
+              <tr>
+                <th>i</th>
+                <th>x</th>
+                <th>y</th>
+                {Object.keys(regressionNames).map((key) => (
+                  <th key={key}>{regressionNames[key]}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {points.map((point, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{point.x.toFixed(2)}</td>
+                  <td>{point.y.toFixed(2)}</td>
+                  {Object.keys(results).map((key) => (
+                    <td key={key}>
+                      {results[key].predicted[index].toFixed(4)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
