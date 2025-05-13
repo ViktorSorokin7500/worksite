@@ -5,3 +5,4 @@ export { ContactsForm } from "./ContactsForm";
 export { PhotoReportPage } from "./PhotoReportPage";
 export { VariationCoefficientCalculator } from "./VariationCoefficientCalculator";
 export { LinearInterpolationCalculator } from "./LinearInterpolationCalculator";
+export { ApproCalculator } from "./ApproCalculator";

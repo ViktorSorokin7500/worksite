@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 const formulas = [
   { id: "variation-coefficient", title: "Коефіцієнт варіації" },
   { id: "linear-interpolation", title: "Лінійна інтерполяція" },
+  { id: "function-approximation", title: "Апроцимація функції однієї змінної" },
 ];
 
 export default function Formulas() {
