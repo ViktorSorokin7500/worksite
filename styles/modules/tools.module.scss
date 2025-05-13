@@ -124,6 +124,18 @@
         gap: 10px;
         margin-bottom: 20px;
 
+        .inputGroup {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .inputGroup label {
+          min-width: 10px;
+          font-weight: 500;
+          color: #333;
+        }
+
         .input {
           width: 100px;
           padding: 8px;

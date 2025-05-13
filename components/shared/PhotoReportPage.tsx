@@ -113,7 +113,7 @@ const PdfPreview = ({ photos }: { photos: Photo[] }) => {
   const pageHeight = 1600;
   const leftPadding = 110;
   const rightPadding = 20;
-  const topBottomPadding = 10; // ~0.35 см
+  const topBottomPadding = 10;
   const gap = 10;
   const photoWidth = (pageWidth - leftPadding - rightPadding - gap) / 2; // ≈ 529.5 px
   const photoHeight = photoWidth * (481 / 854); // ≈ 298.72 px
@@ -193,7 +193,6 @@ export function PhotoReportPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null); // Для DragOverlay
-  ///////////////// 123 456 789 987 654 321 /////////////////////
   // Стандартизація зображення до 854x481
   const standardizeImage = async (file: File): Promise<File> => {
     const img = new Image();
@@ -226,21 +225,11 @@ export function PhotoReportPage() {
     canvas.height = targetHeight;
     const ctx = canvas.getContext("2d")!;
     if (img.width < img.height) {
-      // Поворачиваем холст на 90 градусов влево
-      ctx.translate(0, targetHeight); // Смещаем начало координат в левый нижний угол
-      ctx.rotate(-Math.PI / 2); // Поворот на -90 градусов (влево)
+      ctx.translate(0, targetHeight);
+      ctx.rotate(-Math.PI / 2);
 
-      // Отрисовываем изображение с учётом поворота
-      // После поворота ширина и высота меняются местами
-      ctx.drawImage(
-        img,
-        0,
-        0,
-        targetHeight, // Теперь это ширина на холсте
-        targetWidth // Теперь это высота на холсте
-      );
+      ctx.drawImage(img, 0, 0, targetHeight, targetWidth);
     } else {
-      // Если ориентация правильная (альбомная), рисуем без поворота
       ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
     }
 

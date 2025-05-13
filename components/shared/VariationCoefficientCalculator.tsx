@@ -2,7 +2,7 @@
 import { useState } from "react";
 import styles from "@/styles/modules/tools.module.scss";
 
-export default function VariationCoefficientCalculator() {
+export function VariationCoefficientCalculator() {
   const [inputs, setInputs] = useState<number[]>([0, 0]);
   const [results, setResults] = useState<{
     mean: number;

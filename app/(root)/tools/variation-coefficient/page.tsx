@@ -1,4 +1,4 @@
-import VariationCoefficientCalculator from "@/components/shared/VariationCoefficientCalculator";
+import { VariationCoefficientCalculator } from "@/components/shared";
 import styles from "@/styles/modules/tools.module.scss";
 import { Metadata } from "next";
 
