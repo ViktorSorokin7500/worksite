@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "@/styles/modules/tools.module.scss";
+import { FormulasInterpretation } from "./FormulasInterpretation";
 
 export function ApproCalculator() {
   const [points, setPoints] = useState<{ x: number; y: number }[]>([
@@ -19,6 +20,7 @@ export function ApproCalculator() {
     };
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showFormulas, setShowFormulas] = useState<boolean>(false);
 
   // Додавання нової точки
   const addPoint = () => {
@@ -407,30 +409,18 @@ export function ApproCalculator() {
         </div>
       )}
 
-      {results && !error && (
-        <div
-          style={{ display: "flex", flexDirection: "column" }}
-          className={styles.results}
+      <div className={styles.controls}>
+        <button
+          onClick={() => setShowFormulas(!showFormulas)}
+          className={styles.controlBtn}
         >
-          <h3>Результати:</h3>
-          {Object.entries(results).map(([key, result]) => (
-            <div key={key} className={styles.step}>
-              <p>
-                <strong>{regressionNames[key]}</strong>
-              </p>
-              <p>{result.equation}</p>
-              <p>
-                {key === "linear"
-                  ? "Коефіцієнт лінійної парної кореляції"
-                  : "Коефіцієнт кореляції"}
-                : {result.correlation}
-              </p>
-              <p>Коефіцієнт детермінації: {result.determination}</p>
-              <p>Середня помилка апроксимації: {result.approximationError}%</p>
-            </div>
-          ))}
-        </div>
-      )}
+          {showFormulas
+            ? "Сховати формули розрахунку"
+            : "Відобразити формули розрахунку"}
+        </button>
+      </div>
+
+      {showFormulas && <FormulasInterpretation />}
 
       {results && !error && (
         <div className={styles.results}>
