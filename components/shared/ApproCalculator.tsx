@@ -4,7 +4,8 @@ import styles from "@/styles/modules/tools.module.scss";
 import { FormulasInterpretation } from "./FormulasInterpretation";
 
 export function ApproCalculator() {
-  const [points, setPoints] = useState<{ x: number; y: number }[]>([
+  // Точки: y може бути null для Xn (без ціни)
+  const [points, setPoints] = useState<{ x: number; y: number | null }[]>([
     { x: 0, y: 0 },
     { x: 0, y: 0 },
   ]);
@@ -22,9 +23,9 @@ export function ApproCalculator() {
   const [error, setError] = useState<string | null>(null);
   const [showFormulas, setShowFormulas] = useState<boolean>(false);
 
-  // Додавання нової точки
+  // Додавання нової точки (за замовчуванням y = null для Xn) опціонально
   const addPoint = () => {
-    setPoints((prev) => [...prev, { x: 0, y: 0 }]);
+    setPoints((prev) => [...prev, { x: 0, y: null }]);
     setResults(null);
     setError(null);
   };
@@ -40,12 +41,21 @@ export function ApproCalculator() {
 
   // Оновлення значення точки
   const updatePoint = (index: number, field: "x" | "y", value: string) => {
-    const numValue = parseFloat(value) || 0;
-    setPoints((prev) => {
-      const newPoints = [...prev];
-      newPoints[index] = { ...newPoints[index], [field]: numValue };
-      return newPoints;
-    });
+    if (field === "x") {
+      const numValue = parseFloat(value) || 0;
+      setPoints((prev) => {
+        const newPoints = [...prev];
+        newPoints[index] = { ...newPoints[index], x: numValue };
+        return newPoints;
+      });
+    } else {
+      const numValue = value === "" ? null : parseFloat(value) || 0;
+      setPoints((prev) => {
+        const newPoints = [...prev];
+        newPoints[index] = { ...newPoints[index], y: numValue };
+        return newPoints;
+      });
+    }
     setResults(null);
     setError(null);
   };
@@ -176,12 +186,54 @@ export function ApproCalculator() {
     };
   };
 
+  // Передбачення y для будь-якого x за типом регресії
+  const predictY = (
+    xVal: number,
+    coeffs: number[],
+    type: string,
+    extraParams?: { a?: number; b?: number; c?: number }
+  ) => {
+    if (type === "linear") {
+      return coeffs[1] * xVal + coeffs[0];
+    } else if (type === "quadratic") {
+      return coeffs[2] * xVal ** 2 + coeffs[1] * xVal + coeffs[0];
+    } else if (type === "cubic") {
+      return (
+        coeffs[3] * xVal ** 3 +
+        coeffs[2] * xVal ** 2 +
+        coeffs[1] * xVal +
+        coeffs[0]
+      );
+    } else if (type === "power") {
+      return extraParams!.a! * Math.pow(xVal, coeffs[1]);
+    } else if (type === "show") {
+      return extraParams!.a! * Math.pow(extraParams!.b!, xVal);
+    } else if (type === "logarithmic") {
+      return coeffs[0] + coeffs[1] * Math.log(xVal);
+    } else if (type === "hyperbolic") {
+      return coeffs[0] + coeffs[1] / xVal;
+    } else if (type === "exponential") {
+      return Math.exp(coeffs[0] + coeffs[1] * xVal);
+    }
+    return 0;
+  };
+
   // Розрахунок апроксимацій
   const calculate = () => {
-    const x = points.map((p) => p.x);
-    const y = points.map((p) => p.y);
+    // Фільтруємо точки, де є і x, і y
+    const validPoints = points.filter((p) => p.y !== null) as {
+      x: number;
+      y: number;
+    }[];
+    const x = validPoints.map((p) => p.x);
+    const y = validPoints.map((p) => p.y);
 
     // Валідація
+    if (validPoints.length < 2) {
+      setError("Потрібно щонайменше 2 точки з x та y для розрахунку!");
+      setResults(null);
+      return;
+    }
     if (
       x.some((val) => isNaN(val) || val <= 0) ||
       y.some((val) => isNaN(val) || val <= 0)
@@ -196,6 +248,14 @@ export function ApproCalculator() {
 
     const result: typeof results = {};
 
+    // Функція для знаходження індексу точки в validPoints
+    const findPointIndex = (point: { x: number; y: number | null }) => {
+      if (point.y === null) return -1; // Для Xn повертаємо -1, бо вони не в validPoints
+      return validPoints.findIndex(
+        (vp) => vp.x === point.x && vp.y === point.y
+      );
+    };
+
     // 1. Лінійна регресія
     const linear = leastSquares(x, y, 1);
     const linearMetrics = calculateMetrics(y, linear.predicted);
@@ -206,7 +266,12 @@ export function ApproCalculator() {
       coefficients: { a: linear.coeffs[1], b: linear.coeffs[0] },
       ...linearMetrics,
       mse: linear.mse,
-      predicted: linear.predicted,
+      predicted: points.map((p) => {
+        const index = findPointIndex(p);
+        return index !== -1
+          ? linear.predicted[index]
+          : predictY(p.x, linear.coeffs, "linear");
+      }),
     };
 
     // 2. Квадратична регресія
@@ -225,7 +290,12 @@ export function ApproCalculator() {
       },
       ...quadraticMetrics,
       mse: quadratic.mse,
-      predicted: quadratic.predicted,
+      predicted: points.map((p) => {
+        const index = findPointIndex(p);
+        return index !== -1
+          ? quadratic.predicted[index]
+          : predictY(p.x, quadratic.coeffs, "quadratic");
+      }),
     };
 
     // 3. Кубічна регресія
@@ -245,7 +315,12 @@ export function ApproCalculator() {
       },
       ...cubicMetrics,
       mse: cubic.mse,
-      predicted: cubic.predicted,
+      predicted: points.map((p) => {
+        const index = findPointIndex(p);
+        return index !== -1
+          ? cubic.predicted[index]
+          : predictY(p.x, cubic.coeffs, "cubic");
+      }),
     };
 
     // 4. Степенева регресія
@@ -253,8 +328,8 @@ export function ApproCalculator() {
     const powerY = y.map((val) => Math.log(val));
     const power = leastSquares(powerX, powerY, 1);
     const powerA = Math.exp(power.coeffs[0]);
-    const powerPredicted = x.map(
-      (xi) => powerA * Math.pow(xi, power.coeffs[1])
+    const powerPredicted = validPoints.map(
+      (p) => powerA * Math.pow(p.x, power.coeffs[1])
     );
     const powerMetrics = calculateMetrics(y, powerPredicted);
     result.power = {
@@ -262,7 +337,9 @@ export function ApproCalculator() {
       coefficients: { a: powerA, b: power.coeffs[1] },
       ...powerMetrics,
       mse: power.mse,
-      predicted: powerPredicted,
+      predicted: points.map((p) =>
+        predictY(p.x, power.coeffs, "power", { a: powerA })
+      ),
     };
 
     // 5. Показникова регресія
@@ -270,21 +347,23 @@ export function ApproCalculator() {
     const show = leastSquares(x, showY, 1);
     const showA = Math.exp(show.coeffs[0]);
     const showB = Math.exp(show.coeffs[1]);
-    const showPredicted = x.map((xi) => showA * Math.pow(showB, xi));
+    const showPredicted = validPoints.map((p) => showA * Math.pow(showB, p.x));
     const showMetrics = calculateMetrics(y, showPredicted);
     result.show = {
       equation: `y = ${showA.toFixed(2)} * ${showB.toFixed(2)}^x`,
       coefficients: { a: showA, b: showB },
       ...showMetrics,
       mse: show.mse,
-      predicted: showPredicted,
+      predicted: points.map((p) =>
+        predictY(p.x, show.coeffs, "show", { a: showA, b: showB })
+      ),
     };
 
     // 6. Логарифмічна регресія
     const logX = x.map((val) => Math.log(val));
     const log = leastSquares(logX, y, 1);
-    const logPredicted = x.map(
-      (xi) => log.coeffs[0] + log.coeffs[1] * Math.log(xi)
+    const logPredicted = validPoints.map(
+      (p) => log.coeffs[0] + log.coeffs[1] * Math.log(p.x)
     );
     const logMetrics = calculateMetrics(y, logPredicted);
     result.logarithmic = {
@@ -294,14 +373,14 @@ export function ApproCalculator() {
       coefficients: { a: log.coeffs[0], b: log.coeffs[1] },
       ...logMetrics,
       mse: log.mse,
-      predicted: logPredicted,
+      predicted: points.map((p) => predictY(p.x, log.coeffs, "logarithmic")),
     };
 
     // 7. Гіперболічна регресія
     const hyperX = x.map((val) => 1 / val);
     const hyper = leastSquares(hyperX, y, 1);
-    const hyperPredicted = x.map(
-      (xi) => hyper.coeffs[0] + hyper.coeffs[1] / xi
+    const hyperPredicted = validPoints.map(
+      (p) => hyper.coeffs[0] + hyper.coeffs[1] / p.x
     );
     const hyperMetrics = calculateMetrics(y, hyperPredicted);
     result.hyperbolic = {
@@ -311,22 +390,22 @@ export function ApproCalculator() {
       coefficients: { a: hyper.coeffs[0], b: hyper.coeffs[1] },
       ...hyperMetrics,
       mse: hyper.mse,
-      predicted: hyperPredicted,
+      predicted: points.map((p) => predictY(p.x, hyper.coeffs, "hyperbolic")),
     };
 
     // 8. Експоненціальна регресія
     const expY = y.map((val) => Math.log(val));
     const exp = leastSquares(x, expY, 1);
-    const expC = exp.coeffs[0]; // c = ln(a)
+    const expC = exp.coeffs[0];
     const expB = exp.coeffs[1];
-    const expPredicted = x.map((xi) => Math.exp(expC + expB * xi));
+    const expPredicted = validPoints.map((p) => Math.exp(expC + expB * p.x));
     const expMetrics = calculateMetrics(y, expPredicted);
     result.exponential = {
       equation: `y = e^(${expC.toFixed(2)} + ${expB.toFixed(2)}x)`,
       coefficients: { c: expC, b: expB },
       ...expMetrics,
       mse: exp.mse,
-      predicted: expPredicted,
+      predicted: points.map((p) => predictY(p.x, exp.coeffs, "exponential")),
     };
 
     setResults(result);
@@ -347,7 +426,6 @@ export function ApproCalculator() {
   return (
     <div className={styles.calculator}>
       <div className={styles.formulaDisplay}>
-        <p>Аппроксимація функції однієї змінної</p>
         <p>1. Лінійна регресія: y = ax + b</p>
         <p>2. Квадратична регресія: y = ax² + bx + c</p>
         <p>3. Кубічна регресія: y = ax³ + bx² + cx + d</p>
@@ -378,10 +456,10 @@ export function ApproCalculator() {
             <input
               type="number"
               id={`y${index + 1}`}
-              value={point.y === 0 ? "" : point.y}
+              value={point.y === null ? "" : point.y}
               onChange={(e) => updatePoint(index, "y", e.target.value)}
               className={styles.input}
-              placeholder={`y${index + 1}`}
+              placeholder={`y${index + 1} (опц.)`}
             />
           </div>
         ))}
@@ -414,9 +492,7 @@ export function ApproCalculator() {
           onClick={() => setShowFormulas(!showFormulas)}
           className={styles.controlBtn}
         >
-          {showFormulas
-            ? "Сховати формули розрахунку"
-            : "Відобразити формули розрахунку"}
+          {showFormulas ? "Сховати формули" : "Відобразити формули"}
         </button>
       </div>
 
@@ -455,10 +531,13 @@ export function ApproCalculator() {
             </thead>
             <tbody>
               {points.map((point, index) => (
-                <tr key={index}>
+                <tr
+                  key={index}
+                  className={point.y === null ? styles["predicted-only"] : ""}
+                >
                   <td>{index + 1}</td>
                   <td>{point.x.toFixed(2)}</td>
-                  <td>{point.y.toFixed(2)}</td>
+                  <td>{point.y !== null ? point.y.toFixed(2) : "N/N"}</td>
                   {Object.keys(results).map((key) => (
                     <td key={key}>
                       {results[key].predicted[index].toFixed(4)}

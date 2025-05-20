@@ -10,13 +10,21 @@ export const metadata: Metadata = {
 const formulas = [
   { id: "variation-coefficient", title: "Коефіцієнт варіації" },
   { id: "linear-interpolation", title: "Лінійна інтерполяція" },
+  { id: "linear-extrapolation", title: "Лінійна екстраполяція" },
   { id: "function-approximation", title: "Апроцимація функції однієї змінної" },
+  {
+    id: "function-approximation-two",
+    title: "Апроцимація функції двох змінних",
+  },
+  {
+    id: "function-approximation-three",
+    title: "Апроцимація функції трьох змінних",
+  },
 ];
 
 export default function Formulas() {
   return (
     <div className={styles.formulas}>
-      {/* Герой */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1>Інструменти для оцінювачів</h1>
@@ -33,11 +41,20 @@ export default function Formulas() {
 
         <h2>Доступні формули</h2>
         <div className={styles.grid}>
-          {formulas.map((formula) => (
+          {formulas.map((formula, index) => (
             <Link
               key={formula.id}
               href={`/tools/${formula.id}`}
               className={styles.card}
+              style={
+                index === formulas.length - 1
+                  ? {
+                      pointerEvents: "none",
+                      opacity: 0.5,
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
             >
               <h3>{formula.title}</h3>
             </Link>
