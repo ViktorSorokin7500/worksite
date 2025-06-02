@@ -3,6 +3,7 @@ export { Footer } from "./Footer";
 export { ServicePage } from "./ServicePage";
 export { ContactsForm } from "./ContactsForm";
 export { PhotoReportPage } from "./PhotoReportPage";
+export { VerticalPhotoReportPage } from "./VerticalPhotoReportPage";
 export { VariationCoefficientCalculator } from "./VariationCoefficientCalculator";
 export { LinearInterpolationCalculator } from "./LinearInterpolationCalculator";
 export { LinearExtrapolationCalculator } from "./LinearExtrapolationCalculator";

@@ -35,7 +35,10 @@ export default function Formulas() {
       <div className={styles.container}>
         <div className={styles.grid}>
           <Link href={`/tools/sort-photo`} className={styles.card}>
-            <h3>Створення фотозвіту</h3>
+            <h3>Створення горизонтального фотозвіту</h3>
+          </Link>
+          <Link href={`/tools/sort-photo-vertical`} className={styles.card}>
+            <h3>Створення вертикального фотозвіту</h3>
           </Link>
         </div>
 

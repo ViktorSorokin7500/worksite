@@ -14,7 +14,7 @@ import { SortableContext, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import styles from "@/styles/modules/photo-report.module.scss";
+import styles from "@/styles/modules/photo-report-vertical.module.scss";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { FaRegTrashAlt, FaRedoAlt } from "react-icons/fa";
 
@@ -64,7 +64,12 @@ const SortablePhoto = ({
         <img
           src={photo.preview}
           alt="Фотографія"
-          style={{ transform: `rotate(${photo.rotation}deg)` }}
+          style={{
+            transform: `rotate(${photo.rotation}deg)`,
+            // Корекція розмірів при повороті
+            maxWidth: photo.rotation % 180 !== 0 ? "390px" : "220px",
+            maxHeight: photo.rotation % 180 !== 0 ? "220px" : "390px",
+          }}
           {...listeners}
         />
         <div className={styles.index}>{index + 1}</div>
@@ -94,7 +99,7 @@ const SortablePhoto = ({
         className={styles.rotateButton}
         onClick={(e) => {
           e.stopPropagation();
-          rotatePhoto(photo.id, 180);
+          rotatePhoto(photo.id, 90); // 90° для вертикальних фото
         }}
         title="Повернути вправо"
       >
@@ -106,27 +111,33 @@ const SortablePhoto = ({
 
 // Компонент для попереднього перегляду PDF
 const PdfPreview = ({ photos, title }: { photos: Photo[]; title: string }) => {
-  const photosPerPage = 8; // Сітка 2x4
+  const photosPerPage = 9; // Сітка 3x3
   const pages = Math.ceil(photos.length / photosPerPage);
 
-  const pageWidth = 1200;
-  const pageHeight = 1600;
-  const leftPadding = 110;
-  const rightPadding = 20;
+  // Розміри сторінки в пікселях (A4: 595x842 pt, переводимо в пікселі при 96 DPI)
+  const pageWidth = 600; // Ширина сторінки
+  const pageHeight = 800; // Висота сторінки
+  const leftPadding = 10;
+  const rightPadding = 10;
   const topPadding = 10;
-  const bottomPadding = 10;
+  const bottomPadding = 40;
   const gap = 10;
-  const photoWidth = (pageWidth - leftPadding - rightPadding - gap) / 2; // ≈ 529.5 px
-  const photoHeight = photoWidth * (481 / 854); // ≈ 298.72 px
-  const captionHeight = 25; // Для шрифту
-  const captionGap = 5; // Відступ між підписом і фото
+
+  // Розміри фотографії (вертикальна орієнтація, наприклад, 481x854)
+  const photoWidth = (pageWidth - leftPadding - rightPadding - 2 * gap) / 3; // ≈ 185 px
+  const photoHeight = photoWidth * (624 / 481); // ≈ 328 px
+  const captionHeight = 14; // Висота підпису
+  const captionGap = 15; // Відступ між фото та підписом
+
+  // Перевірка масштабування, якщо вміст не вміщається
   const totalHeight =
-    4 * (photoHeight + captionHeight + captionGap) +
-    3 * gap +
+    3 * (photoHeight + captionHeight + captionGap) +
+    2 * gap +
     topPadding +
     bottomPadding +
-    180;
+    20;
   const scale = totalHeight > pageHeight ? pageHeight / totalHeight : 1;
+
   const scaledPhotoWidth = photoWidth * scale;
   const scaledPhotoHeight = photoHeight * scale;
   const scaledCaptionHeight = captionHeight * scale;
@@ -148,11 +159,12 @@ const PdfPreview = ({ photos, title }: { photos: Photo[]; title: string }) => {
           <div
             className={styles.pageTitle}
             style={{
-              fontSize: "36px",
+              fontSize: "16px",
               fontWeight: "bold",
               color: "#000",
               textAlign: "left",
-              marginTop: "60px",
+              marginBottom: "10px",
+              paddingLeft: "24px",
             }}
           >
             {title || "Об'єкт оцінки"}
@@ -160,13 +172,14 @@ const PdfPreview = ({ photos, title }: { photos: Photo[]; title: string }) => {
           <div
             className={styles.grid}
             style={{
-              gridTemplateColumns: `repeat(2, ${scaledPhotoWidth}px)`,
-              gridTemplateRows: `repeat(4, ${
+              display: "grid",
+              gridTemplateColumns: `repeat(3, ${scaledPhotoWidth}px)`,
+              gridTemplateRows: `repeat(3, ${
                 scaledPhotoHeight + scaledCaptionHeight + scaledCaptionGap
               }px)`,
               gap: `${gap}px`,
               width: `${pageWidth - leftPadding - rightPadding}px`,
-              height: `${pageHeight - topPadding - bottomPadding - 180}px`,
+              height: `${pageHeight - topPadding - bottomPadding - 20}px`,
             }}
           >
             {photos
@@ -190,6 +203,7 @@ const PdfPreview = ({ photos, title }: { photos: Photo[]; title: string }) => {
                     src={photo.preview}
                     alt="Фотографія"
                     style={{
+                      width: `${scaledPhotoWidth}px`,
                       height: `${scaledPhotoHeight}px`,
                       transform: `rotate(${photo.rotation}deg)`,
                     }}
@@ -204,15 +218,11 @@ const PdfPreview = ({ photos, title }: { photos: Photo[]; title: string }) => {
 };
 
 // Основний компонент сторінки
-export function PhotoReportPage() {
+export function VerticalPhotoReportPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null); // Для DragOverlay
   const [title, setTitle] = useState<string>("Об'єкт оцінки");
-
-  const updateTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
   // Стандартизація зображення до 854x481
   const standardizeImage = async (file: File): Promise<File> => {
     const img = new Image();
@@ -222,32 +232,18 @@ export function PhotoReportPage() {
       img.src = objectUrl;
     });
 
-    // const targetRatio = 854 / 481;
-    const targetWidth = 854;
-    const targetHeight = 481;
-
-    // const currentRatio = img.width / img.height;
-    // let sourceWidth = img.width;
-    // let sourceHeight = img.height;
-    // let sourceX = 0;
-    // let sourceY = 0;
-
-    // if (currentRatio > targetRatio) {
-    //   sourceWidth = img.height * targetRatio;
-    //   sourceX = (img.width - sourceWidth) / 2;
-    // } else if (currentRatio < targetRatio) {
-    //   sourceHeight = img.width / targetRatio;
-    //   sourceY = (img.height - sourceHeight) / 2;
-    // }
+    const targetWidth = 481; // Ширина для вертикальної орієнтації
+    const targetHeight = 854; // Висота для вертикальної орієнтації
 
     const canvas = document.createElement("canvas");
     canvas.width = targetWidth;
     canvas.height = targetHeight;
     const ctx = canvas.getContext("2d")!;
-    if (img.width < img.height) {
-      ctx.translate(0, targetHeight);
-      ctx.rotate(-Math.PI / 2);
 
+    // Якщо зображення горизонтальне, повертаємо його на 90 градусів
+    if (img.width > img.height) {
+      ctx.translate(targetWidth, 0);
+      ctx.rotate(Math.PI / 2);
       ctx.drawImage(img, 0, 0, targetHeight, targetWidth);
     } else {
       ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
@@ -269,6 +265,10 @@ export function PhotoReportPage() {
           : photo
       )
     );
+  };
+
+  const updateTitle = (newTitle: string) => {
+    setTitle(newTitle);
   };
 
   // Обробка завантаження файлів
@@ -349,11 +349,11 @@ export function PhotoReportPage() {
 
     const pdf = new jsPDF({
       orientation: "portrait",
-      unit: "px",
-      format: "a4",
+      unit: "pt", // Використовуємо пункти для A4
+      format: "a4", // 595x842 pt
     });
 
-    const photosPerPage = 8;
+    const photosPerPage = 9;
     const pages = Math.ceil(photos.length / photosPerPage);
 
     for (let pageIndex = 0; pageIndex < pages; pageIndex++) {
@@ -364,20 +364,15 @@ export function PhotoReportPage() {
       }
 
       const canvas = await html2canvas(pageElement, {
-        scale: 1,
+        scale: 2, // Підвищена роздільна здатність для чіткості
         useCORS: true,
-        windowWidth: 440,
-        windowHeight: 625,
-      });
-
-      console.log("Розмір канви:", {
-        width: canvas.width,
-        height: canvas.height,
+        windowWidth: 595, // A4 ширина в пунктах
+        windowHeight: 842, // A4 висота в пунктах
       });
 
       const imgData = canvas.toDataURL("image/jpeg", 0.9);
-      const imgWidth = 440;
-      const imgHeight = 625;
+      const imgWidth = 595; // Ширина A4 в пунктах
+      const imgHeight = 842; // Висота A4 в пунктах
 
       if (pageIndex > 0) {
         pdf.addPage();
